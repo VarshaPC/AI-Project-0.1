@@ -1,0 +1,25 @@
+{
+	"info": {
+		"name": "CAKEORA API v1",
+		"description": "Single-shop cake ordering API. Set the local environment, sign up/log in, and configure catalog IDs and date/slot values from your seeded or administered database.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [{ "key": "accessToken", "value": "" }, { "key": "cakeId", "value": "" }, { "key": "variantId", "value": "" }, { "key": "orderId", "value": "" }, { "key": "bookingDate", "value": "" }, { "key": "bookingSlot", "value": "" }, { "key": "checkoutKey", "value": "cakeora-checkout-unique-001" }],
+	"item": [
+		{ "name": "Health", "request": { "method": "GET", "url": "{{baseUrl}}/health" } },
+		{ "name": "Sign up", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Asha Rao\",\n  \"email\": \"asha@example.com\",\n  \"phone\": \"+919876543210\",\n  \"password\": \"use-a-long-unique-password\",\n  \"confirmPassword\": \"use-a-long-unique-password\"\n}" }, "url": "{{baseUrl}}/auth/signup" }, "event": [{ "listen": "test", "script": { "exec": ["if (pm.response.code === 201) { pm.environment.set('accessToken', pm.response.json().accessToken); }"] } }] },
+		{ "name": "Login", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"asha@example.com\",\n  \"password\": \"use-a-long-unique-password\"\n}" }, "url": "{{baseUrl}}/auth/login" }, "event": [{ "listen": "test", "script": { "exec": ["if (pm.response.code === 200) { pm.environment.set('accessToken', pm.response.json().accessToken); }"] } }] },
+		{ "name": "Refresh session", "request": { "method": "POST", "url": "{{baseUrl}}/auth/refresh" } },
+		{ "name": "Logout", "request": { "method": "POST", "url": "{{baseUrl}}/auth/logout" } },
+		{ "name": "My profile", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }], "url": "{{baseUrl}}/auth/me" } },
+		{ "name": "Browse cakes", "request": { "method": "GET", "url": "{{baseUrl}}/cakes?category=Chocolate&page=1&limit=12" } },
+		{ "name": "Add cart item", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"cakeId\": \"{{cakeId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1\n}" }, "url": "{{baseUrl}}/cart/items" } },
+		{ "name": "View cart", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }], "url": "{{baseUrl}}/cart" } },
+		{ "name": "Availability", "request": { "method": "GET", "url": "{{baseUrl}}/availability?from={{bookingDate}}&to={{bookingDate}}" } },
+		{ "name": "Validate booking", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"cakeId\": \"{{cakeId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"date\": \"{{bookingDate}}\",\n  \"slot\": \"{{bookingSlot}}\"\n}" }, "url": "{{baseUrl}}/bookings/validate" } },
+		{ "name": "Checkout pickup", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Idempotency-Key", "value": "{{checkoutKey}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"fulfillment\": \"pickup\",\n  \"date\": \"{{bookingDate}}\",\n  \"slot\": \"{{bookingSlot}}\"\n}" }, "url": "{{baseUrl}}/checkout" }, "event": [{ "listen": "test", "script": { "exec": ["if (pm.response.code === 201) { pm.environment.set('orderId', pm.response.json().order._id); }"] } }] },
+		{ "name": "My orders", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }], "url": "{{baseUrl}}/orders" } },
+		{ "name": "Create Razorpay payment", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"orderId\": \"{{orderId}}\"\n}" }, "url": "{{baseUrl}}/payments/create" } },
+		{ "name": "Admin dashboard", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }], "url": "{{baseUrl}}/admin/dashboard" } }
+	]
+}
