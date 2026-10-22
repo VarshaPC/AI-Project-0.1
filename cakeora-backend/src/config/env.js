@@ -14,7 +14,7 @@ export function loadConfig(env = process.env) {
 	return {
 		nodeEnv: env.NODE_ENV ?? "development",
 		port,
-		mongoUri: env.MONGODB_URI ?? "mongodb://127.0.0.1:27017/cakeora?replicaSet=rs0",
+		mongoUri: env.MONGODB_URI ?? "mongodb://127.0.0.1:27017/bakeberry?replicaSet=rs0",
 		accessSecret: required("JWT_ACCESS_SECRET", "development-access-secret-change-me-32-chars"),
 		refreshSecret: required("JWT_REFRESH_SECRET", "development-refresh-secret-change-me-32"),
 		accessTtl: env.JWT_ACCESS_TTL ?? "15m",

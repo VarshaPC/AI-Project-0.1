@@ -43,7 +43,7 @@ test("customer can sign up, price a cart, checkout atomically and retry idempote
 	assert.equal(signup.status, 201, JSON.stringify(signup.body));
 	accessToken = signup.body.accessToken;
 	userId = signup.body.user.id;
-	assert.ok(signup.headers["set-cookie"].some((cookie) => cookie.includes("cakeora_refresh")));
+	assert.ok(signup.headers["set-cookie"].some((cookie) => cookie.includes("bakeberry_refresh")));
 
 	cake = await Cake.create({
 		name: "Integration Chocolate Cake",
@@ -94,7 +94,7 @@ test("customer order lookup does not expose another user's orders", async () => 
 });
 
 test("admin stock adjustment cannot reduce stock below checkout reservations", async () => {
-	const admin = await User.create({ name: "CAKEORA Admin", email: "admin@example.com", phone: "+919876543212", passwordHash: "not-used", role: "admin" });
+	const admin = await User.create({ name: "BAKEBERRY Admin", email: "admin@example.com", phone: "+919876543212", passwordHash: "not-used", role: "admin" });
 	const token = createAccessToken(admin);
 	const blocked = await request(app).patch(`/api/v1/admin/inventory/${cake.id}/${variant.id}`).set("Authorization", `Bearer ${token}`).send({ stock: 0, reason: "Attempt below reserved quantity" });
 	assert.equal(blocked.status, 409, JSON.stringify(blocked.body));

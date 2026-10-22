@@ -3,7 +3,7 @@ import { useAuth } from "./AuthContext.jsx";
 import { cartService } from "../services/cartService.js";
 
 const CartContext = createContext(null);
-const GUEST_CART_KEY = "cakeora-guest-cart";
+const GUEST_CART_KEY = "bakeberry-guest-cart";
 let guestCartSyncPromise = null;
 
 function readGuestCart() {

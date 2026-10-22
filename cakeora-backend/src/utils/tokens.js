@@ -3,11 +3,11 @@ import jwt from "jsonwebtoken";
 import { config } from "../config/env.js";
 
 export function createAccessToken(user) {
-	return jwt.sign({ role: user.role }, config.accessSecret, { subject: user.id, issuer: "cakeora-api", audience: "cakeora-customer", expiresIn: config.accessTtl });
+	return jwt.sign({ role: user.role }, config.accessSecret, { subject: user.id, issuer: "bakeberry-api", audience: "bakeberry-customer", expiresIn: config.accessTtl });
 }
 
 export function createRefreshToken(user) {
-	return jwt.sign({ type: "refresh" }, config.refreshSecret, { subject: user.id, issuer: "cakeora-api", audience: "cakeora-refresh", expiresIn: `${config.refreshTtlDays}d` });
+	return jwt.sign({ type: "refresh" }, config.refreshSecret, { subject: user.id, issuer: "bakeberry-api", audience: "bakeberry-refresh", expiresIn: `${config.refreshTtlDays}d` });
 }
 
 export function hashToken(token) {

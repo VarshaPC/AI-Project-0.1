@@ -58,7 +58,7 @@ router.patch("/orders/:id/status", param("id").isMongoId(), body("status").isIn(
 		if (!transitions[order.orderStatus]?.includes(req.body.status)) throw new ApiError(409, "INVALID_ORDER_TRANSITION", `Cannot move order from ${order.orderStatus} to ${req.body.status}`);
 		if (req.body.status === "cancelled" && order.paymentStatus === "paid") throw new ApiError(409, "REFUND_REQUIRED", "Paid orders require the refund workflow before cancellation");
 		order.orderStatus = req.body.status;
-		order.statusHistory.push({ status: req.body.status, note: req.body.note ?? "Updated by CAKEORA staff" });
+		order.statusHistory.push({ status: req.body.status, note: req.body.note ?? "Updated by BAKEBERRY staff" });
 		await order.save();
 		await audit(req, "order.status.updated", "order", order.id, { status: req.body.status });
 		res.json({ order });

@@ -13,7 +13,7 @@ export function BookingBanner() {
 }
 
 export function StorySection() {
-	return <section className="story section-wrap" id="story"><div className="story-mark" aria-hidden="true">c.</div><div className="story-copy"><p className="eyebrow">A SMALL SHOP WITH A BIG SOFT SPOT</p><h2>Good cake makes<br/>room for <em>everyone.</em></h2></div><p className="story-note">We’re an independent neighbourhood bakery, mixing familiar favourites with a little extra care. Every CAKEORA cake is baked in our own kitchen, finished by hand, and sent out ready to make somebody’s day.</p><a className="story-link" href="#footer">A little more about us <span aria-hidden="true">↗</span></a></section>;
+	return <section className="story section-wrap" id="story"><div className="story-mark" aria-hidden="true">b.</div><div className="story-copy"><p className="eyebrow">A SMALL SHOP WITH A BIG SOFT SPOT</p><h2>Good cake makes<br/>room for <em>everyone.</em></h2></div><p className="story-note">We’re an independent neighbourhood bakery, mixing familiar favourites with a little extra care. Every BAKEBERRY cake is baked in our own kitchen, finished by hand, and sent out ready to make somebody’s day.</p><a className="story-link" href="#footer">A little more about us <span aria-hidden="true">↗</span></a></section>;
 }
 
 export function ReviewBand() {

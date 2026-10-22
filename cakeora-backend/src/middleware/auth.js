@@ -7,7 +7,7 @@ export async function requireAuth(req, _res, next) {
 	try {
 		const token = req.get("authorization")?.match(/^Bearer (.+)$/i)?.[1];
 		if (!token) throw new ApiError(401, "AUTH_REQUIRED", "Sign in to continue");
-		const payload = jwt.verify(token, config.accessSecret, { issuer: "cakeora-api", audience: "cakeora-customer" });
+		const payload = jwt.verify(token, config.accessSecret, { issuer: "bakeberry-api", audience: "bakeberry-customer" });
 		const user = await User.findById(payload.sub).select("name email phone role");
 		if (!user) throw new ApiError(401, "AUTH_INVALID", "The session is no longer valid");
 		req.user = user;

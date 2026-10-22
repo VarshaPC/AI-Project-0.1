@@ -34,7 +34,7 @@ router.post("/signup", authLimiter,
 			const refreshToken = createRefreshToken(user);
 			user.refreshTokenHash = hashToken(refreshToken);
 			await user.save();
-			res.cookie("cakeora_refresh", refreshToken, refreshCookieOptions());
+			res.cookie("bakeberry_refresh", refreshToken, refreshCookieOptions());
 			res.status(201).json({ user: { id: user.id, name: user.name, email: user.email, phone: user.phone }, accessToken: createAccessToken(user) });
 		} catch (error) {
 			if (error.code === 11000) return next(new ApiError(409, "ACCOUNT_EXISTS", "An account already uses this email or phone number"));
@@ -50,7 +50,7 @@ router.post("/login", authLimiter, body("email").trim().isEmail().normalizeEmail
 		const refreshToken = createRefreshToken(user);
 		user.refreshTokenHash = hashToken(refreshToken);
 		await user.save();
-		res.cookie("cakeora_refresh", refreshToken, refreshCookieOptions());
+		res.cookie("bakeberry_refresh", refreshToken, refreshCookieOptions());
 		res.json({ user: { id: user.id, name: user.name, email: user.email, phone: user.phone }, accessToken: createAccessToken(user) });
 	} catch (error) {
 		next(error);
@@ -59,9 +59,9 @@ router.post("/login", authLimiter, body("email").trim().isEmail().normalizeEmail
 
 router.post("/refresh", authLimiter, async (req, res, next) => {
 	try {
-		const token = req.cookies.cakeora_refresh;
+		const token = req.cookies.bakeberry_refresh;
 		if (!token) throw new ApiError(401, "REFRESH_REQUIRED", "Refresh session is missing");
-		const payload = jwt.verify(token, config.refreshSecret, { issuer: "cakeora-api", audience: "cakeora-refresh" });
+		const payload = jwt.verify(token, config.refreshSecret, { issuer: "bakeberry-api", audience: "bakeberry-refresh" });
 		const user = await User.findById(payload.sub).select("+refreshTokenHash");
 		if (!user || !user.refreshTokenHash || user.refreshTokenHash !== hashToken(token)) {
 			if (user) { user.refreshTokenHash = undefined; await user.save(); }
@@ -70,7 +70,7 @@ router.post("/refresh", authLimiter, async (req, res, next) => {
 		const nextRefresh = createRefreshToken(user);
 		user.refreshTokenHash = hashToken(nextRefresh);
 		await user.save();
-		res.cookie("cakeora_refresh", nextRefresh, refreshCookieOptions());
+		res.cookie("bakeberry_refresh", nextRefresh, refreshCookieOptions());
 		res.json({ accessToken: createAccessToken(user) });
 	} catch (error) {
 		next(error instanceof ApiError ? error : new ApiError(401, "REFRESH_INVALID", "Refresh session is invalid or expired"));
@@ -79,14 +79,14 @@ router.post("/refresh", authLimiter, async (req, res, next) => {
 
 router.post("/logout", async (req, res, next) => {
 	try {
-		const token = req.cookies.cakeora_refresh;
+		const token = req.cookies.bakeberry_refresh;
 		if (token) {
 			try {
-				const payload = jwt.verify(token, config.refreshSecret, { issuer: "cakeora-api", audience: "cakeora-refresh" });
+				const payload = jwt.verify(token, config.refreshSecret, { issuer: "bakeberry-api", audience: "bakeberry-refresh" });
 				await User.findByIdAndUpdate(payload.sub, { $unset: { refreshTokenHash: 1 } });
 			} catch { /* Always clear an invalid or expired cookie. */ }
 		}
-		res.clearCookie("cakeora_refresh", refreshCookieOptions());
+		res.clearCookie("bakeberry_refresh", refreshCookieOptions());
 		res.status(204).end();
 	} catch (error) { next(error); }
 });
@@ -143,7 +143,7 @@ router.post("/change-password", requireAuth, body("currentPassword").isString().
 		user.passwordChangedAt = new Date();
 		user.refreshTokenHash = undefined;
 		await user.save();
-		res.clearCookie("cakeora_refresh", refreshCookieOptions());
+		res.clearCookie("bakeberry_refresh", refreshCookieOptions());
 		res.status(204).end();
 	} catch (error) { next(error); }
 });

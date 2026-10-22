@@ -12,5 +12,5 @@ test("configuration defaults to India and validates port", () => {
 
 test("production requires long, distinct JWT secrets", () => {
 	assert.throws(() => loadConfig({ NODE_ENV: "production" }), /MONGODB_URI/);
-	assert.throws(() => loadConfig({ NODE_ENV: "production", MONGODB_URI: "mongodb://example.com:27017/cakeora", JWT_ACCESS_SECRET: "a".repeat(32), JWT_REFRESH_SECRET: "a".repeat(32) }), /must be different/);
+	assert.throws(() => loadConfig({ NODE_ENV: "production", MONGODB_URI: "mongodb://example.com:27017/bakeberry", JWT_ACCESS_SECRET: "a".repeat(32), JWT_REFRESH_SECRET: "a".repeat(32) }), /must be different/);
 });

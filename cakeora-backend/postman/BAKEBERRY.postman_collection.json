@@ -1,10 +1,10 @@
 {
 	"info": {
-		"name": "CAKEORA API v1",
+		"name": "BAKEBERRY API v1",
 		"description": "Single-shop cake ordering API. Set the local environment, sign up/log in, and configure catalog IDs and date/slot values from your seeded or administered database.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
-	"variable": [{ "key": "accessToken", "value": "" }, { "key": "cakeId", "value": "" }, { "key": "variantId", "value": "" }, { "key": "orderId", "value": "" }, { "key": "bookingDate", "value": "" }, { "key": "bookingSlot", "value": "" }, { "key": "checkoutKey", "value": "cakeora-checkout-unique-001" }],
+	"variable": [{ "key": "accessToken", "value": "" }, { "key": "cakeId", "value": "" }, { "key": "variantId", "value": "" }, { "key": "orderId", "value": "" }, { "key": "bookingDate", "value": "" }, { "key": "bookingSlot", "value": "" }, { "key": "checkoutKey", "value": "bakeberry-checkout-unique-001" }],
 	"item": [
 		{ "name": "Health", "request": { "method": "GET", "url": "{{baseUrl}}/health" } },
 		{ "name": "Sign up", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Asha Rao\",\n  \"email\": \"asha@example.com\",\n  \"phone\": \"+919876543210\",\n  \"password\": \"use-a-long-unique-password\",\n  \"confirmPassword\": \"use-a-long-unique-password\"\n}" }, "url": "{{baseUrl}}/auth/signup" }, "event": [{ "listen": "test", "script": { "exec": ["if (pm.response.code === 201) { pm.environment.set('accessToken', pm.response.json().accessToken); }"] } }] },

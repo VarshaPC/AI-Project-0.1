@@ -10,7 +10,7 @@ export default function SiteHeader() {
 	return <>
 		<div className="announcement"><span>GOOD THINGS TAKE THE CAKE</span><span>Free delivery within 1 km on orders over Rs 1,500</span></div>
 		<header className="site-header">
-			<Link className="brand" to="/" aria-label="CAKEORA home"><span className="brand-mark">c</span><span>cakeora<small>BAKED FOR YOUR MOMENTS</small></span></Link>
+			<Link className="brand" to="/" aria-label="BAKEBERRY home"><span className="brand-mark">b</span><span>bakeberry<small>BAKED FOR YOUR MOMENTS</small></span></Link>
 			<nav className={`main-nav${menuOpen ? " open" : ""}`} aria-label="Main navigation">
 				<NavLink to="/" end onClick={() => setMenuOpen(false)}>Home</NavLink>
 				<NavLink to="/cakes" onClick={() => setMenuOpen(false)}>All cakes</NavLink>

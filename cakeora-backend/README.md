@@ -1,6 +1,6 @@
-# CAKEORA Backend
+# BAKEBERRY Backend
 
-Single-shop ordering API built with Node.js 20+, Express 4, MongoDB/Mongoose, JWT, and bcrypt. The React/Vite storefront is in the workspace root; this backend remains isolated in `cakeora-backend/`.
+Single-shop ordering API built with Node.js 20+, Express 4, MongoDB/Mongoose, JWT, and bcrypt. The React/Vite storefront is in the workspace root; this backend remains isolated in `bakeberry-backend/`.
 
 ## Implemented modules
 
@@ -35,7 +35,7 @@ Confirm `rs.status()` reports a primary. For a hosted environment, use a MongoDB
 ## Install and run
 
 ```powershell
-cd cakeora-backend
+cd bakeberry-backend
 npm install
 Copy-Item .env.example .env
 ```
@@ -124,7 +124,7 @@ Checkout:
 ```http
 POST /api/v1/checkout
 Authorization: Bearer <accessToken>
-Idempotency-Key: cakeora-checkout-unique-001
+Idempotency-Key: bakeberry-checkout-unique-001
 Content-Type: application/json
 
 {"fulfillment":"pickup","date":"2026-10-30","slot":"14:00-16:00"}
@@ -146,7 +146,7 @@ If valid, checkout creates a `pending_payment` order and returns a 15-minute res
 npm test
 ```
 
-Unit tests cover timezone cutoffs, lead times, coordinate validation, environment rules, and base API behavior. Database concurrency, full auth, and payment integration tests require MongoDB replica-set and provider sandbox configuration; they are not represented as passing in this initial suite. Import `postman/CAKEORA.postman_collection.json` into Postman and configure the environment in `postman/CAKEORA.local.postman_environment.json`.
+Unit tests cover timezone cutoffs, lead times, coordinate validation, environment rules, and base API behavior. Database concurrency, full auth, and payment integration tests require MongoDB replica-set and provider sandbox configuration; they are not represented as passing in this initial suite. Import `postman/BAKEBERRY.postman_collection.json` into Postman and configure the environment in `postman/BAKEBERRY.local.postman_environment.json`.
 
 ## Production checklist
 

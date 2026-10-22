@@ -28,7 +28,7 @@ apiClient.interceptors.response.use((response) => response, async (error) => {
 		return apiClient(original);
 	} catch (refreshError) {
 		accessToken = null;
-		window.dispatchEvent(new CustomEvent("cakeora:session-expired"));
+		window.dispatchEvent(new CustomEvent("bakeberry:session-expired"));
 		throw refreshError;
 	} finally {
 		refreshRequest = null;
@@ -44,7 +44,7 @@ export function clearAccessToken() {
 }
 
 export function getApiError(error) {
-	return error.response?.data?.error?.message || error.message || "CAKEORA could not complete that request.";
+	return error.response?.data?.error?.message || error.message || "BAKEBERRY could not complete that request.";
 }
 
 export function restoreSessionOnce(restore) {

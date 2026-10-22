@@ -37,7 +37,7 @@ router.post("/checkout", requireAuth, body("fulfillment").isIn(["delivery", "pic
 			deliveryAddress = customer?.addresses.find((entry) => entry._id.toString() === req.body.addressId);
 			if (!deliveryAddress) throw new ApiError(404, "ADDRESS_NOT_FOUND", "Saved delivery address was not found");
 			const addressCoordinates = await geocodeAddress(deliveryAddress);
-			if (distanceKm(shopCoordinates, addressCoordinates) > config.deliveryRadiusKm) throw new ApiError(422, "OUTSIDE_DELIVERY_AREA", `Instant delivery is available only within ${config.deliveryRadiusKm} km of CAKEORA`);
+			if (distanceKm(shopCoordinates, addressCoordinates) > config.deliveryRadiusKm) throw new ApiError(422, "OUTSIDE_DELIVERY_AREA", `Instant delivery is available only within ${config.deliveryRadiusKm} km of BAKEBERRY`);
 			deliveryAddress = { fullName: deliveryAddress.fullName, phone: deliveryAddress.phone, line1: deliveryAddress.line1, line2: deliveryAddress.line2, city: deliveryAddress.city, postalCode: deliveryAddress.postalCode, coordinates: addressCoordinates };
 		}
 		const pricedItems = [];
@@ -163,7 +163,7 @@ router.post("/orders/:id/cancel", requireAuth, body("reason").optional().isStrin
 		await session.withTransaction(async () => {
 			const order = await Order.findOne({ _id: req.params.id, user: req.user.id }).session(session);
 			if (!order) throw new ApiError(404, "ORDER_NOT_FOUND", "Order was not found");
-			if (order.orderStatus !== "pending_payment") throw new ApiError(409, "CANCELLATION_UNAVAILABLE", "Only unpaid orders can be cancelled automatically; contact CAKEORA for paid-order assistance");
+			if (order.orderStatus !== "pending_payment") throw new ApiError(409, "CANCELLATION_UNAVAILABLE", "Only unpaid orders can be cancelled automatically; contact BAKEBERRY for paid-order assistance");
 			for (const item of order.items) {
 				if (item.inventoryMode === "production") await ProductionCapacity.updateOne({ cake: item.cake, variant: item.variant, date: order.bookingDate, reserved: { $gte: item.quantity } }, { $inc: { reserved: -item.quantity } }, { session });
 				else await Cake.updateOne({ _id: item.cake }, { $inc: { "variants.$[variant].reserved": -item.quantity } }, { arrayFilters: [{ "variant._id": item.variant, "variant.reserved": { $gte: item.quantity } }], session });

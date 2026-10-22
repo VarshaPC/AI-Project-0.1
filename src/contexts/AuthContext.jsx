@@ -19,10 +19,10 @@ export function AuthProvider({ children }) {
 			.catch(() => { clearAccessToken(); if (active) setUser(null); })
 			.finally(() => { if (active) setLoading(false); });
 		const expire = () => setUser(null);
-		window.addEventListener("cakeora:session-expired", expire);
+		window.addEventListener("bakeberry:session-expired", expire);
 		return () => {
 			active = false;
-			window.removeEventListener("cakeora:session-expired", expire);
+			window.removeEventListener("bakeberry:session-expired", expire);
 		};
 	}, []);
 

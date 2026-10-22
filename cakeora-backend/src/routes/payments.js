@@ -42,7 +42,7 @@ async function finalizePaidOrder(payment, providerPaymentId) {
 			await currentPayment.save({ session });
 			order.paymentStatus = "paid";
 			order.orderStatus = "placed";
-			order.statusHistory.push({ status: "placed", note: "Payment verified by CAKEORA" });
+			order.statusHistory.push({ status: "placed", note: "Payment verified by BAKEBERRY" });
 			await order.save({ session });
 		});
 	} finally { await session.endSession(); }
@@ -58,7 +58,7 @@ router.post("/create", requireAuth, body("orderId").isMongoId(), async (req, res
 		let payment = await Payment.findOne({ order: order._id, provider: "razorpay" });
 		if (!payment) payment = await Payment.create({ order: order._id, user: req.user.id, provider: "razorpay", amount: order.total, currency: order.currency, status: "created" });
 		if (!payment.providerOrderId) {
-			const providerOrder = await razorpay().orders.create({ amount: Math.round(order.total * 100), currency: order.currency, receipt: order.orderNumber, notes: { cakeoraOrderId: order.id } });
+			const providerOrder = await razorpay().orders.create({ amount: Math.round(order.total * 100), currency: order.currency, receipt: order.orderNumber, notes: { bakeberryOrderId: order.id } });
 			payment.providerOrderId = providerOrder.id;
 			payment.status = "pending";
 			await payment.save();

@@ -9,14 +9,14 @@ const replicaSet = await MongoMemoryReplSet.create({ replSet: { count: 1, storag
 await connectDatabase(replicaSet.getUri());
 if (process.env.SEED_DEMO_DATA === "true" || process.argv.includes("--seed-demo")) console.info("Local demo seed:", await seedDemoData());
 const app = createApp();
-const server = app.listen(config.port, () => console.info(`CAKEORA API listening on http://localhost:${config.port} with temporary MongoDB`));
+const server = app.listen(config.port, () => console.info(`BAKEBERRY API listening on http://localhost:${config.port} with temporary MongoDB`));
 const stopReservationJob = startReservationExpiryJob();
 
 let shuttingDown = false;
 async function shutdown(signal) {
 	if (shuttingDown) return;
 	shuttingDown = true;
-	console.info(`${signal} received; shutting down temporary CAKEORA API`);
+	console.info(`${signal} received; shutting down temporary BAKEBERRY API`);
 	stopReservationJob();
 	server.close(async () => {
 		await disconnectDatabase();

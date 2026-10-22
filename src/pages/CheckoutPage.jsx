@@ -44,7 +44,7 @@ export default function CheckoutPage() {
 		try {
 			const payment = await orderService.createPayment(order._id);
 			await loadRazorpay();
-			const checkout = new window.Razorpay({ key: payment.keyId, amount: Math.round(payment.amount * 100), currency: payment.currency, name: "CAKEORA", description: "CAKEORA cake order", order_id: payment.providerOrderId, handler: async (response) => {
+			const checkout = new window.Razorpay({ key: payment.keyId, amount: Math.round(payment.amount * 100), currency: payment.currency, name: "BAKEBERRY", description: "BAKEBERRY cake order", order_id: payment.providerOrderId, handler: async (response) => {
 				try {
 					await orderService.verifyPayment(response);
 					navigate(`/orders/${order._id}`, { replace: true, state: { paid: true } });
@@ -68,7 +68,7 @@ export default function CheckoutPage() {
 		event.preventDefault(); setBusy(true); setError("");
 		try {
 			await bookingService.validate({ cakeId: items[0].cakeId || items[0].cake?._id, variantId: items[0].variantId || items[0].variant?._id, date, slot });
-			const result = await orderService.checkout({ fulfillment: "pickup", date, slot }, globalThis.crypto?.randomUUID?.() || `cakeora-${Date.now()}-${Math.random().toString(16).slice(2)}`);
+			const result = await orderService.checkout({ fulfillment: "pickup", date, slot }, globalThis.crypto?.randomUUID?.() || `bakeberry-${Date.now()}-${Math.random().toString(16).slice(2)}`);
 			await refresh();
 			await payOrder(result.order);
 		} catch (requestError) { setError(getApiError(requestError)); }

@@ -52,7 +52,7 @@ test("cart, booking, checkout, order and payment services call existing API rout
 		await cartService.remove("i1");
 		await bookingService.availability("2026-11-01");
 		await bookingService.validate({ cakeId: "c1", variantId: "v1", date: "2026-11-01", slot: "10:00-12:00" });
-		await orderService.checkout({ fulfillment: "pickup", date: "2026-11-01", slot: "10:00-12:00" }, "cakeora-test-001");
+		await orderService.checkout({ fulfillment: "pickup", date: "2026-11-01", slot: "10:00-12:00" }, "bakeberry-test-001");
 		await orderService.list();
 		await orderService.getById("o1");
 		await orderService.createPayment("o1");
@@ -60,7 +60,7 @@ test("cart, booking, checkout, order and payment services call existing API rout
 		assert.ok(calls.some((call) => call[0] === "GET" && call[1] === "/availability"));
 		assert.ok(calls.some((call) => call[0] === "POST" && call[1] === "/bookings/validate"));
 		const checkout = calls.find((call) => call[0] === "POST" && call[1] === "/checkout");
-		assert.equal(checkout[3].headers["Idempotency-Key"], "cakeora-test-001");
+		assert.equal(checkout[3].headers["Idempotency-Key"], "bakeberry-test-001");
 		assert.ok(calls.some((call) => call[0] === "POST" && call[1] === "/payments/create"));
 		assert.ok(calls.some((call) => call[0] === "POST" && call[1] === "/payments/verify"));
 	} finally {
