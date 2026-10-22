@@ -9,71 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
-    <script src="New.js" defer></script>
   </head>
   <body>
-    <div class="announcement"><span>GOOD THINGS TAKE THE CAKE</span><span>Free delivery within 1 km on orders over Rs 1,500</span></div>
-    <header class="site-header">
-      <a class="brand" href="#home" aria-label="CAKEORA home"><span class="brand-mark">c</span><span>cakeora<small>BAKED FOR YOUR MOMENTS</small></span></a>
-      <nav class="main-nav" aria-label="Main navigation">
-        <a class="active" href="#home">Home</a><a href="#cakes">All cakes</a><a href="#story">Our story</a><a href="#footer">Contact</a>
-      </nav>
-      <div class="header-actions">
-        <button class="icon-button search-toggle" type="button" aria-label="Search cakes" title="Search cakes"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg></button>
-        <button class="account-button" type="button" data-open="account">Sign in</button>
-        <button class="cart-button" type="button" data-open="cart" aria-label="Open cart">Bag <span id="cart-count">0</span></button>
-        <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
-      </div>
-    </header>
-
-    <main id="home">
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow"><span></span> CAKES FOR THE GOOD PARTS</p>
-          <h1 id="hero-title">A little joy,<br />layer by <em>layer.</em></h1>
-          <p class="hero-note">Thoughtful, small-batch cakes for the moments that deserve something sweet.</p>
-          <div class="hero-actions"><a class="button button-dark" href="#cakes">Find your cake <span aria-hidden="true">↗</span></a><button class="text-button" type="button" data-open="booking">Plan a celebration <span aria-hidden="true">→</span></button></div>
-          <div class="hero-proof"><div class="proof-stars" aria-label="Rated 4.9 out of 5">★★★★★</div><span><strong>4.9/5</strong> from 280+ happy moments</span></div>
-        </div>
-        <div class="hero-photo" role="img" aria-label="Hand-finished strawberry celebration cake on a table">
-          <div class="photo-note"><span class="note-sparkle">✳</span><span>Made fresh<br />every morning</span></div>
-          <div class="hero-stamp">A CAKE<br />FOR YOU</div>
-        </div>
-        <div class="hero-index"><span>01</span><span class="index-line"></span><span>THE CELEBRATION EDIT</span></div>
-      </section>
-
-      <section class="promise-strip" aria-label="Shop promises"><p><span>✳</span> Baked fresh, every day</p><p><span>⌁</span> Ingredients with a story</p><p><span>◷</span> Delivered with care</p><p><span>♡</span> Made for sharing</p></section>
-
-      <section class="collection section-wrap" id="cakes" aria-labelledby="collection-title">
-        <div class="section-heading">
-          <div><p class="eyebrow">A VERY GOOD PLACE TO START</p><h2 id="collection-title">Find your <em>happy.</em></h2></div>
-          <a class="all-link" href="#cakes">Explore all cakes <span aria-hidden="true">↗</span></a>
-        </div>
-        <div class="collection-tools">
-          <div class="category-tabs" role="group" aria-label="Filter cakes"><button class="category-tab selected" type="button" data-category="All">All cakes <span>08</span></button><button class="category-tab" type="button" data-category="Celebration">Celebration</button><button class="category-tab" type="button" data-category="Chocolate">Chocolate</button><button class="category-tab" type="button" data-category="Fruit">Fruit & cream</button><button class="category-tab" type="button" data-category="Eggless">Eggless</button></div>
-          <label class="search-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg><input id="cake-search" type="search" placeholder="Find a flavour" aria-label="Search cakes by name or flavour" /></label>
-        </div>
-        <div class="product-grid" id="product-grid" aria-live="polite"></div>
-        <p class="empty-results" id="empty-results" hidden>No cakes found. Try another flavour or category.</p>
-      </section>
-
-      <section class="booking-banner" id="booking">
-        <div class="booking-image" role="img" aria-label="A hand-decorated celebration cake"></div>
-        <div class="booking-copy"><p class="eyebrow">THE BIG DAY IS YOURS</p><h2>Dream it.<br /><em>We’ll bake it.</em></h2><p>One-of-a-kind cakes, made just for your moment. Tell us what you’re celebrating and we’ll make the sweet part simple.</p><button class="button button-light" type="button" data-open="booking">Start planning <span aria-hidden="true">↗</span></button><small>Advance orders need at least 3 days’ notice.</small></div>
-        <span class="banner-doodle" aria-hidden="true">✳</span>
-      </section>
-
-      <section class="story section-wrap" id="story"><div class="story-mark" aria-hidden="true">c.</div><div class="story-copy"><p class="eyebrow">A SMALL SHOP WITH A BIG SOFT SPOT</p><h2>Good cake makes<br />room for <em>everyone.</em></h2></div><p class="story-note">We’re an independent neighbourhood bakery, mixing familiar favourites with a little extra care. Every CAKEORA cake is baked in our own kitchen, finished by hand, and sent out ready to make somebody’s day.</p><a class="story-link" href="#footer">A little more about us <span aria-hidden="true">↗</span></a></section>
-
-      <section class="quote-band"><span class="quote-mark">“</span><blockquote>It tasted like the best part of the day, before the day had even started.</blockquote><p>PRIYA S. <span>·</span> CUSTOMER SINCE 2023</p><div class="quote-dots"><span class="current"></span><span></span><span></span></div></section>
-    </main>
-
-    <footer id="footer" class="site-footer"><div class="footer-main"><div class="footer-brand"><a class="brand" href="#home"><span class="brand-mark">c</span><span>cakeora<small>BAKED FOR YOUR MOMENTS</small></span></a><p>Good cake. Good people.<br />That’s the whole recipe.</p></div><div class="footer-column"><h3>THE LITTLE DETAILS</h3><a href="#cakes">Shop all cakes</a><button type="button" data-open="booking">Custom cakes</button><a href="#story">Our story</a><button type="button" data-open="delivery">Delivery & pickup</button></div><div class="footer-column"><h3>HERE TO HELP</h3><a href="mailto:hello@cakeora.example">hello@cakeora.example</a><a href="tel:+910000000000">+91 00000 00000</a><p>Every day, 9:00 am – 8:00 pm</p><button type="button" data-open="admin">Owner dashboard</button></div><form class="newsletter" id="newsletter-form"><label for="newsletter-email">A little sweetness in your inbox.</label><p>New bakes, seasonal things, and the occasional good excuse.</p><div><input id="newsletter-email" type="email" placeholder="Your email address" required /><button aria-label="Subscribe" type="submit">↗</button></div><span id="newsletter-feedback" role="status"></span></form></div><div class="footer-bottom"><span>© 2026 CAKEORA BAKERY</span><span>Delivery within 3 km of our kitchen · Pickup always welcome</span><span>Made with a little extra care <b>✳</b></span></div></footer>
-
-    <div class="overlay" id="overlay" hidden></div>
-    <aside class="side-panel" id="cart-panel" aria-labelledby="cart-title" aria-modal="true" role="dialog" hidden><div class="panel-heading"><div><p class="eyebrow">THE GOOD STUFF</p><h2 id="cart-title">Your bag <span id="panel-count">(0)</span></h2></div><button class="close-button" type="button" data-close aria-label="Close bag">×</button></div><div class="cart-items" id="cart-items"></div><div class="cart-empty" id="cart-empty"><span>✳</span><p>Your bag’s taking a little breather.</p><a href="#cakes" data-close>Find something lovely</a></div><div class="cart-summary" id="cart-summary" hidden><div><span>Subtotal</span><strong id="cart-subtotal">Rs 0</strong></div><p>Delivery calculated at checkout. Free within 1 km over Rs 1,500.</p><button class="button button-dark checkout-button" type="button" data-open="checkout">Continue to checkout <span>→</span></button></div></aside>
-    <section class="dialog" id="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" hidden><button class="close-button dialog-close" type="button" data-close aria-label="Close dialog">×</button><div id="dialog-content"></div></section>
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -53,6 +53,7 @@ router.post("/checkout", requireAuth, body("fulfillment").isIn(["delivery", "pic
 			const unitPrice = variant.price;
 			subtotal += unitPrice * item.quantity;
 			const readyAvailable = Math.max(0, variant.stock - variant.reserved);
+			if (req.body.fulfillment === "delivery" && readyAvailable < item.quantity) throw new ApiError(409, "INSUFFICIENT_READY_STOCK", `${cake.name} is not available for instant delivery in that quantity`);
 			const inventoryMode = readyAvailable >= item.quantity ? "ready" : "production";
 			if (inventoryMode === "production" && (!variant.advanceEligible || variant.productionCapacityPerDay < item.quantity)) throw new ApiError(409, "ITEM_UNAVAILABLE", `${cake.name} is not available for that date`);
 			pricedItems.push({ item, cake, variant, unitPrice, inventoryMode });

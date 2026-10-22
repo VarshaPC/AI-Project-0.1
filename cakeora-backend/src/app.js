@@ -24,7 +24,7 @@ export function createApp() {
 		res.setHeader("x-request-id", req.id);
 		next();
 	});
-	app.use(helmet());
+	app.use(helmet({ contentSecurityPolicy: { directives: { "script-src": ["'self'", "https://checkout.razorpay.com"], "frame-src": ["'self'", "https://api.razorpay.com", "https://checkout.razorpay.com"] } } }));
 	app.use(cors({ origin: (origin, callback) => callback(null, !origin || config.corsOrigins.includes(origin)), credentials: true }));
 	app.use(compression());
 	app.post("/api/v1/payments/webhook", express.raw({ type: "application/json", limit: "100kb" }), razorpayWebhookHandler);

@@ -1,6 +1,6 @@
 # CAKEORA Backend
 
-Single-shop ordering API built with Node.js 20+, Express 4, MongoDB/Mongoose, JWT, and bcrypt. The existing static storefront remains in the workspace root; this project is isolated in `cakeora-backend/`.
+Single-shop ordering API built with Node.js 20+, Express 4, MongoDB/Mongoose, JWT, and bcrypt. The React/Vite storefront is in the workspace root; this backend remains isolated in `cakeora-backend/`.
 
 ## Implemented modules
 
@@ -12,6 +12,7 @@ Single-shop ordering API built with Node.js 20+, Express 4, MongoDB/Mongoose, JW
 - Razorpay order creation, backend signature verification, webhook signature verification/idempotency, and payment finalization.
 - Admin/staff order transitions, inventory operations, production capacity, audit events, and sales summary endpoints.
 - Reservation expiry worker, request IDs, security headers, CORS, rate limiting, central errors, health endpoint, and development notification adapter.
+- React storefront API integration for live catalogue/search, guest cart migration, account sessions, server cart pricing, booking slots, pickup checkout, orders, and Razorpay Checkout.js handoff.
 
 Provider integrations, shop-specific fees/location/policies, and deployment credentials still need owner configuration. This code is not production-ready until the operational checklist is completed.
 
@@ -39,7 +40,9 @@ npm install
 Copy-Item .env.example .env
 ```
 
-For quick local UI/API development, `npm run dev` starts a temporary in-memory MongoDB replica set and the API in watch mode. Its data is discarded when the process exits. Set strong, different `JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET` values in `.env`; the template defaults are development-only. For persistent data, configure `MONGODB_URI` and use `npm start`. For local frontend requests, keep the frontend origin in `CORS_ORIGINS` and configure `FRONTEND_URL`. Then:
+For quick local UI/API development, `npm run dev` starts a temporary in-memory MongoDB replica set and the API in watch mode. Its data is discarded when the process exits. Use `npm run dev:demo` to also seed clearly marked sample cakes and 14 days of booking slots. Set strong, different `JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET` values in `.env`; the template defaults are development-only. For persistent data, configure `MONGODB_URI` and use `npm start`. For local frontend requests, keep `http://127.0.0.1:5500` in `CORS_ORIGINS` and `FRONTEND_URL`.
+
+In a second terminal at the workspace root, run `npm install` once and then `npm run dev` to serve the React app at `http://127.0.0.1:5173`. Set `VITE_API_URL=http://127.0.0.1:4000/api/v1` in the frontend `.env` if you need to change the API URL. Use the same `127.0.0.1` hostname for both local servers so the HttpOnly refresh cookie remains same-site. Then:
 
 ```powershell
 npm test
@@ -47,6 +50,8 @@ npm run dev
 ```
 
 The API listens on `http://localhost:4000`. Health check: `GET /api/v1/health`.
+
+The connected React storefront loads at `http://127.0.0.1:5173`. Demo cakes are marked `DEMO DATA` and exist only in the temporary in-memory database. Payment checkout requires Razorpay test keys; without them, the frontend cancels the unpaid reservation and restores the items to the authenticated cart.
 
 ## Configuration
 

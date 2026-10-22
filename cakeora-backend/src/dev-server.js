@@ -3,9 +3,11 @@ import { createApp } from "./app.js";
 import { connectDatabase, disconnectDatabase } from "./config/database.js";
 import { config } from "./config/env.js";
 import { startReservationExpiryJob } from "./jobs/reservations.js";
+import { seedDemoData } from "./services/demoSeed.js";
 
 const replicaSet = await MongoMemoryReplSet.create({ replSet: { count: 1, storageEngine: "wiredTiger" } });
 await connectDatabase(replicaSet.getUri());
+if (process.env.SEED_DEMO_DATA === "true" || process.argv.includes("--seed-demo")) console.info("Local demo seed:", await seedDemoData());
 const app = createApp();
 const server = app.listen(config.port, () => console.info(`CAKEORA API listening on http://localhost:${config.port} with temporary MongoDB`));
 const stopReservationJob = startReservationExpiryJob();

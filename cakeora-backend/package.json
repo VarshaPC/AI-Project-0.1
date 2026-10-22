@@ -6,7 +6,9 @@
   "engines": { "node": ">=20" },
   "scripts": {
     "start": "node src/server.js",
-    "dev": "node --watch src/dev-server.js",
+    "dev": "node src/dev-server.js",
+    "dev:demo": "node src/dev-server.js --seed-demo",
+    "seed:dev": "node scripts/seed-demo.js",
     "test": "node --test",
     "test:integration": "node --test tests/integration/*.test.js"
   },

@@ -12,7 +12,7 @@ export async function priceCart(cart) {
 		const unitPrice = variant.price;
 		const lineTotal = unitPrice * item.quantity;
 		subtotal += lineTotal;
-		items.push({ id: item.id, cakeId: cake._id, variantId: variant._id, name: cake.name, variantName: variant.name, quantity: item.quantity, unitPrice, lineTotal, flavour: item.flavour, customization: item.customization, stock: Math.max(0, variant.stock - variant.reserved) });
+		items.push({ id: item._id.toString(), cakeId: cake._id.toString(), variantId: variant._id.toString(), name: cake.name, variantName: variant.name, quantity: item.quantity, unitPrice, lineTotal, flavour: item.flavour, customization: item.customization, stock: Math.max(0, variant.stock - variant.reserved) });
 	}
 	return { items, subtotal, currency: "INR" };
 }

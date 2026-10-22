@@ -54,10 +54,17 @@ test("customer can sign up, price a cart, checkout atomically and retry idempote
 	});
 	variant = cake.variants[0];
 	await BookingSlot.create({ date: bookingDate, slot: "14:00-16:00", capacity: 2, reserved: 0 });
+	const catalogue = await request(app).get("/api/v1/cakes?category=Chocolate&search=Integration&page=1&limit=10");
+	assert.equal(catalogue.status, 200, JSON.stringify(catalogue.body));
+	assert.equal(catalogue.body.items.length, 1);
+	assert.equal(catalogue.body.items[0]._id, cake.id);
 
 	const addToCart = await request(app).post("/api/v1/cart/items").set("Authorization", `Bearer ${accessToken}`).send({ cakeId: cake.id, variantId: variant.id, quantity: 1, flavour: "Chocolate" });
 	assert.equal(addToCart.status, 200, JSON.stringify(addToCart.body));
 	assert.equal(addToCart.body.subtotal, 1800);
+	assert.ok(addToCart.body.items[0].id, "Cart response must return a subdocument ID for update/delete");
+	const updatedCart = await request(app).patch(`/api/v1/cart/items/${addToCart.body.items[0].id}`).set("Authorization", `Bearer ${accessToken}`).send({ quantity: 1 });
+	assert.equal(updatedCart.status, 200, JSON.stringify(updatedCart.body));
 
 	const checkoutPayload = { fulfillment: "pickup", date: bookingDate, slot: "14:00-16:00" };
 	const first = await request(app).post("/api/v1/checkout").set("Authorization", `Bearer ${accessToken}`).set("Idempotency-Key", "integration-checkout-001").send(checkoutPayload);
