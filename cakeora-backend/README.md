@@ -42,7 +42,7 @@ Copy-Item .env.example .env
 
 For quick local UI/API development, `npm run dev` starts a temporary in-memory MongoDB replica set and the API in watch mode. Its data is discarded when the process exits. Use `npm run dev:demo` to also seed clearly marked sample cakes and 14 days of booking slots. Set strong, different `JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET` values in `.env`; the template defaults are development-only. For persistent data, configure `MONGODB_URI` and use `npm start`. For local frontend requests, keep `http://127.0.0.1:5500` in `CORS_ORIGINS` and `FRONTEND_URL`.
 
-In a second terminal at the workspace root, run `npm install` once and then `npm run dev` to serve the React app at `http://127.0.0.1:5173`. Set `VITE_API_URL=http://127.0.0.1:4000/api/v1` in the frontend `.env` if you need to change the API URL. Use the same `127.0.0.1` hostname for both local servers so the HttpOnly refresh cookie remains same-site. Then:
+In a second terminal at the workspace root, run `npm install` once and then `npm run dev` to serve the React app at `http://127.0.0.1:5500`. Set `VITE_API_URL=http://127.0.0.1:4000/api/v1` in the frontend `.env` if you need to change the API URL. Use the same `127.0.0.1` hostname for both local servers so the HttpOnly refresh cookie remains same-site. Then:
 
 ```powershell
 npm test
@@ -51,7 +51,7 @@ npm run dev
 
 The API listens on `http://localhost:4000`. Health check: `GET /api/v1/health`.
 
-The connected React storefront loads at `http://127.0.0.1:5173`. Demo cakes are marked `DEMO DATA` and exist only in the temporary in-memory database. Payment checkout requires Razorpay test keys; without them, the frontend cancels the unpaid reservation and restores the items to the authenticated cart.
+The connected React storefront loads at `http://127.0.0.1:5500`. Demo cakes are marked `DEMO DATA` and exist only in the temporary in-memory database. Payment checkout requires Razorpay test keys; without them, the frontend cancels the unpaid reservation and restores the items to the authenticated cart.
 
 ## Configuration
 
