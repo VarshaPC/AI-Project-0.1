@@ -8,7 +8,7 @@ import { availableStock, imageFor, money } from "../components/ProductCard.jsx";
 export default function CakeDetailPage() {
 	const { id } = useParams();
 	const navigate = useNavigate();
-	const { add } = useCart();
+	const { add, items } = useCart();
 	const [cake, setCake] = useState(null);
 	const [variantId, setVariantId] = useState("");
 	const [flavour, setFlavour] = useState("");
@@ -28,6 +28,7 @@ export default function CakeDetailPage() {
 	}, [id]);
 	const variant = cake?.variants?.find((entry) => entry._id === variantId);
 	const flavours = variant?.flavours || [];
+	const inBagCount = (items || []).filter((item) => (item.cake?._id || item.cakeId || item.cake) === id).reduce((sum, item) => sum + item.quantity, 0);
 	async function addSelected() {
 		try { await add(cake, variant, { quantity, flavour }); navigate("/cart"); }
 		catch (requestError) { setError(getApiError(requestError)); }
@@ -35,6 +36,7 @@ export default function CakeDetailPage() {
 	if (loading) return <main className="page-wrap"><p className="collection-state">Loading cake details…</p></main>;
 	if (!cake) return <main className="page-wrap"><p className="collection-state error">{error || "Cake not found."}</p><Link to="/cakes">Back to cakes</Link></main>;
 	return <main className="page-wrap"><p className="eyebrow">{cake.category}</p><section className="cake-detail-page"><img src={imageFor(cake)} alt={`${cake.name} cake`}/><div><h1 className="page-title">{cake.name}</h1><p className="detail-description">{cake.description}</p><p className="detail-price">{money(variant?.price)} {variant && <span>· {variant.name}</span>}</p>
+		{inBagCount > 0 && <p className="in-bag-tag-detail">✓ <strong>{inBagCount}</strong> already in your bag</p>}
 		<label className="field-label">Size<select value={variantId} onChange={(event) => { const next = cake.variants.find((item) => item._id === event.target.value); setVariantId(event.target.value); setFlavour(next?.flavours?.[0] || ""); }}><option value="" disabled>Select a size</option>{cake.variants.map((item) => <option key={item._id} value={item._id}>{item.name} · {money(item.price)} · {availableStock(item)} ready</option>)}</select></label>
 		{flavours.length > 0 && <label className="field-label">Flavour<select value={flavour} onChange={(event) => setFlavour(event.target.value)}>{flavours.map((name) => <option key={name}>{name}</option>)}</select></label>}
 		<label className="field-label">Quantity<input type="number" min="1" max={Math.max(1, availableStock(variant))} value={quantity} onChange={(event) => setQuantity(Math.max(1, Number(event.target.value)))}/></label>

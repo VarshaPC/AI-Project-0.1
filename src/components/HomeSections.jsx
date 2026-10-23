@@ -1,7 +1,38 @@
 import { Link } from "react-router-dom";
 
 export function Hero() {
-	return <section className="hero" aria-labelledby="hero-title"><div className="hero-copy"><p className="eyebrow"><span/> CAKES FOR THE GOOD PARTS</p><h1 id="hero-title">A little joy,<br/>layer by <em>layer.</em></h1><p className="hero-note">Thoughtful, small-batch cakes for the moments that deserve something sweet.</p><div className="hero-actions"><Link className="button button-dark" to="/cakes">Find your cake <span aria-hidden="true">↗</span></Link><Link className="text-button" to="/booking">Plan a celebration <span aria-hidden="true">→</span></Link></div><div className="hero-proof"><div className="proof-stars" aria-label="Rated 4.9 out of 5">★★★★★</div><span><strong>4.9/5</strong> from 280+ happy moments</span></div></div><div className="hero-photo" role="img" aria-label="Hand-finished strawberry celebration cake on a table"><div className="photo-note"><span className="note-sparkle">✳</span><span>Made fresh<br/>every morning</span></div><div className="hero-stamp">A CAKE<br/>FOR YOU</div></div><div className="hero-index"><span>01</span><span className="index-line"/><span>THE CELEBRATION EDIT</span></div></section>;
+	return <section className="hero" aria-labelledby="hero-title">
+		<div className="hero-copy">
+			<p className="eyebrow"><span/> CAKES FOR THE GOOD PARTS</p>
+			<h1 id="hero-title">A little joy,<br/>layer by <em>layer.</em></h1>
+			<p className="hero-note">Thoughtful, small-batch cakes for the moments that deserve something sweet.</p>
+			<div className="hero-actions">
+				<Link className="button button-dark" to="/cakes">Find your cake <span aria-hidden="true">↗</span></Link>
+				<Link className="text-button" to="/booking">Plan a celebration <span aria-hidden="true">→</span></Link>
+			</div>
+			<div className="hero-proof">
+				<div className="proof-stars" aria-label="Rated 4.9 out of 5">★★★★★</div>
+				<span><strong>4.9/5</strong> from 280+ happy moments</span>
+			</div>
+		</div>
+		<div className="hero-photo" role="img" aria-label="Hand-finished celebration cake on a table">
+			<img
+				className="hero-image"
+				src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1500&q=85"
+				alt="Hand-finished strawberry celebration cake on a table"
+				loading="eager"
+			/>
+			<div className="hero-image-overlay" aria-hidden="true" />
+			<div className="photo-note">
+				<span className="note-sparkle">✳</span>
+				<span>Made fresh<br/>every morning</span>
+			</div>
+			<div className="hero-stamp">
+				A CAKE<br/>FOR YOU
+			</div>
+		</div>
+		<div className="hero-index"><span>01</span><span className="index-line"/><span>THE CELEBRATION EDIT</span></div>
+	</section>;
 }
 
 export function PromiseStrip() {

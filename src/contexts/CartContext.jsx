@@ -20,6 +20,24 @@ export function CartProvider({ children }) {
 	const [items, setItems] = useState(readGuestCart);
 	const [subtotal, setSubtotal] = useState(0);
 	const [loading, setLoading] = useState(false);
+	const [toast, setToast] = useState("");
+	const [bagBumping, setBagBumping] = useState(false);
+
+	const showToast = useCallback((message) => {
+		setToast(message);
+	}, []);
+
+	useEffect(() => {
+		if (!toast) return;
+		const timer = setTimeout(() => setToast(""), 3000);
+		return () => clearTimeout(timer);
+	}, [toast]);
+
+	const triggerBagAnimation = useCallback(() => {
+		setBagBumping(true);
+		const timer = setTimeout(() => setBagBumping(false), 900);
+		return () => clearTimeout(timer);
+	}, []);
 
 	const refresh = useCallback(async () => {
 		if (!user) {
@@ -64,8 +82,15 @@ export function CartProvider({ children }) {
 		subtotal,
 		loading,
 		count: items.reduce((sum, item) => sum + item.quantity, 0),
+		toast,
+		showToast,
+		bagBumping,
 		refresh,
 		async add(cake, variant, { quantity = 1, flavour = "", customization = "" } = {}) {
+			triggerBagAnimation();
+			const currentCount = items.reduce((sum, item) => sum + item.quantity, 0);
+			const newTotal = currentCount + quantity;
+			showToast(`Product Added to Bag Successfully (${newTotal} in bag)`);
 			if (user) {
 				await cartService.add({ cakeId: cake._id || cake.cakeId, variantId: variant._id || variant.variantId, quantity, flavour, customization });
 				return refresh();
@@ -98,7 +123,7 @@ export function CartProvider({ children }) {
 			else localStorage.removeItem(GUEST_CART_KEY);
 			return refresh();
 		}
-	}), [items, subtotal, loading, user, refresh]);
+	}), [items, subtotal, loading, user, toast, showToast, bagBumping, triggerBagAnimation, refresh]);
 
 	return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

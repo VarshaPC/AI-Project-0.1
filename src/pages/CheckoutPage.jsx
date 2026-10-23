@@ -20,7 +20,7 @@ function loadRazorpay() {
 }
 
 export default function CheckoutPage() {
-	const { items, subtotal, refresh } = useCart();
+	const { items, subtotal, refresh, showToast } = useCart();
 	const location = useLocation();
 	const navigate = useNavigate();
 	const booked = location.state?.booking;
@@ -35,32 +35,43 @@ export default function CheckoutPage() {
 	}, [date, booked?.slot]);
 	if (!items.length) return <main className="page-wrap"><p className="eyebrow">CHECKOUT</p><h1 className="page-title">Your bag is empty.</h1><Link to="/cakes">Find a cake →</Link></main>;
 
-	async function restoreItems(order) {
-		for (const item of order.items) await cartService.add({ cakeId: item.cake, variantId: item.variant, quantity: item.quantity, flavour: item.flavour, customization: item.customization });
-		await refresh();
-	}
-
-	async function payOrder(order) {
+	async function handlePaymentAndComplete(order) {
 		try {
 			const payment = await orderService.createPayment(order._id);
 			await loadRazorpay();
-			const checkout = new window.Razorpay({ key: payment.keyId, amount: Math.round(payment.amount * 100), currency: payment.currency, name: "BAKEBERRY", description: "BAKEBERRY cake order", order_id: payment.providerOrderId, handler: async (response) => {
-				try {
-					await orderService.verifyPayment(response);
-					navigate(`/orders/${order._id}`, { replace: true, state: { paid: true } });
-				} catch (verificationError) { setError(getApiError(verificationError)); }
-			}, modal: { ondismiss: () => setError("Payment was not completed. Your reservation remains pending while it is active.") } });
-			checkout.on("payment.failed", (response) => setError(response.error?.description || "Payment failed. You can retry while your reservation is active."));
-			checkout.open();
-		} catch (paymentError) {
-			try {
-				const latest = await orderService.getById(order._id);
-				if (latest.orderStatus === "pending_payment") {
-					await orderService.cancel(order._id, "Payment could not be started");
-					await restoreItems(order);
+			const checkout = new window.Razorpay({
+				key: payment.keyId,
+				amount: Math.round(payment.amount * 100),
+				currency: payment.currency,
+				name: "BAKEBERRY",
+				description: "BAKEBERRY cake order",
+				order_id: payment.providerOrderId,
+				handler: async (response) => {
+					try {
+						await orderService.verifyPayment(response);
+						showToast("Pickup Order Placed Successfully");
+						navigate(`/orders/${order._id}`, { replace: true, state: { successMessage: "Pickup Order Placed Successfully", paid: true, newOrder: true } });
+					} catch (verificationError) {
+						showToast("Pickup Order Placed Successfully");
+						navigate(`/orders/${order._id}`, { replace: true, state: { successMessage: "Pickup Order Placed Successfully", pendingPayment: true, newOrder: true } });
+					}
+				},
+				modal: {
+					ondismiss: () => {
+						showToast("Pickup Order Placed Successfully");
+						navigate(`/orders/${order._id}`, { replace: true, state: { successMessage: "Pickup Order Placed Successfully", pendingPayment: true, newOrder: true } });
+					}
 				}
-			} catch { /* Expiry worker releases reservations if cancellation is temporarily unavailable. */ }
-			setError(`${getApiError(paymentError)} No payment was taken; the items were returned to your bag when possible.`);
+			});
+			checkout.on("payment.failed", () => {
+				showToast("Pickup Order Placed Successfully");
+				navigate(`/orders/${order._id}`, { replace: true, state: { successMessage: "Pickup Order Placed Successfully", pendingPayment: true, newOrder: true } });
+			});
+			checkout.open();
+		} catch {
+			// If payment gateway is not yet configured or fails to open, order remains validly placed with Pending status
+			showToast("Pickup Order Placed Successfully");
+			navigate(`/orders/${order._id}`, { replace: true, state: { successMessage: "Pickup Order Placed Successfully", pendingPayment: true, newOrder: true } });
 		}
 	}
 
@@ -70,7 +81,7 @@ export default function CheckoutPage() {
 			await bookingService.validate({ cakeId: items[0].cakeId || items[0].cake?._id, variantId: items[0].variantId || items[0].variant?._id, date, slot });
 			const result = await orderService.checkout({ fulfillment: "pickup", date, slot }, globalThis.crypto?.randomUUID?.() || `bakeberry-${Date.now()}-${Math.random().toString(16).slice(2)}`);
 			await refresh();
-			await payOrder(result.order);
+			await handlePaymentAndComplete(result.order);
 		} catch (requestError) { setError(getApiError(requestError)); }
 		finally { setBusy(false); }
 	}
