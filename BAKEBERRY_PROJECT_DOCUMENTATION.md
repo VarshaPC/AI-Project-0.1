@@ -68,6 +68,10 @@ graph TD
     API -.->|Server-side Address Verification| GeocodingAPI
 ```
 
+> **📊 System Architecture — Visual Diagram**
+
+![BAKEBERRY System Architecture Diagram](./public/bakeberry_architecture_diagram.jpg)
+
 ### Port Allocation & Endpoints
 | Component | Default Host & Port | Environment Variable |
 |---|---|---|
@@ -266,6 +270,10 @@ stateDiagram-v2
     Delivered --> [*]
     Cancelled --> [*]: Stock & Slot Released in ACID Transaction
 ```
+
+> **📊 Order Lifecycle — Visual Diagram**
+
+![BAKEBERRY Order Lifecycle State Machine](./public/bakeberry_order_lifecycle_diagram.jpg)
 
 ### Transactional Stock Reservation (`orders.js`)
 When a customer clicks **"Place pickup order"**:
